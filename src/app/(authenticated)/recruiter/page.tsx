@@ -65,31 +65,7 @@ export default function RecruiterPage() {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="sticky top-0 z-30 bg-white border-b border-slate-100 flex items-center px-6 h-16 shrink-0">
-        <h1 className="text-xl font-bold text-slate-900 mr-6">Talent Search</h1>
-        <div className="flex items-center gap-3 hidden md:flex">
-          <span className="text-[10px] font-bold tracking-widest text-slate-500 flex items-center gap-1.5">
-            ACTIVE JOBS <span className="bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">4</span>
-          </span>
-          <span className="text-[10px] font-bold tracking-widest text-slate-500 flex items-center gap-1.5">
-            UNREAD MESSAGES <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">12</span>
-          </span>
-          <span className="text-[10px] font-bold tracking-widest text-slate-500 flex items-center gap-1.5">
-            SHORTLISTED <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">45</span>
-          </span>
-        </div>
-        <div className="ml-auto flex items-center gap-4">
-          <div className="relative relative">
-             <Bell className="w-5 h-5 text-slate-400" />
-             <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white" />
-          </div>
-          <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 text-xs font-bold">
-            {getInitials(user?.displayName || 'R')}
-          </div>
-        </div>
-      </header>
-
-      <div className="flex flex-1 overflow-hidden">
+      {/* No redundant header needed here as AppLayout provides MainHeader. */}      <div className="flex flex-1 overflow-hidden">
         {/* Main Grid */}
         <div className="flex-1 overflow-y-auto bg-slate-50 p-6">
            <div className="relative mb-6">
