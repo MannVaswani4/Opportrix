@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "chats": {
+      "$chatId": {
+        // A user can read/write the chat if their UID is part of the chatId
+        // (Since we constructed chatId as "uid1_uid2")
+        ".read": "auth != null && $chatId.contains(auth.uid)",
+        ".write": "auth != null && $chatId.contains(auth.uid)",
+        "messages": {
+          "$msgId": {
+            // Further validation for message contents
+            ".validate": "newData.hasChildren(['senderId', 'text', 'timestamp']) && newData.child('senderId').val() === auth.uid"
+          }
+        }
+      }
+    }
+  }
+}

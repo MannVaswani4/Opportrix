@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --background: 248 250 252;
+    --foreground: 15 23 42;
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    font-feature-settings: 'cv02','cv03','cv04','cv11';
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* ── Brand Button ────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700
+           text-white font-medium px-5 py-2.5 rounded-xl transition-all
+           duration-200 shadow-sm hover:shadow-md active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 bg-white hover:bg-slate-50
+           text-slate-800 font-medium px-5 py-2.5 rounded-xl border border-slate-200
+           transition-all duration-200 shadow-sm hover:shadow active:scale-95;
+  }
+
+  /* ── Card ────────────────────────────────── */
+  .card {
+    @apply bg-white rounded-2xl border border-slate-100 shadow-sm;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-md hover:border-slate-200 transition-all duration-200;
+  }
+
+  /* ── Input ───────────────────────────────── */
+  .input {
+    @apply w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white
+           text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2
+           focus:ring-brand-500/30 focus:border-brand-500 transition-all;
+  }
+
+  /* ── Sidebar nav item ────────────────────── */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+           text-slate-600 hover:bg-slate-100 hover:text-slate-900
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .nav-item-active {
+    @apply bg-brand-50 text-brand-700 hover:bg-brand-50 hover:text-brand-700;
+  }
+
+  /* ── Badge ───────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  /* ── Skeleton ────────────────────────────── */
+  .skeleton {
+    @apply animate-pulse bg-slate-200 rounded-lg;
+  }
+
+  /* ── Post card ───────────────────────────── */
+  .post-card {
+    @apply card p-5 hover:shadow-md hover:border-slate-200 transition-all duration-200 cursor-pointer;
+  }
+
+  /* ── Platform badge colors ───────────────── */
+  .platform-linkedin { @apply bg-blue-600 text-white; }
+  .platform-twitter  { @apply bg-black text-white; }
+  .platform-reddit   { @apply bg-orange-500 text-white; }
+}
+
+@layer utilities {
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+}
