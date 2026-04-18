@@ -11,11 +11,6 @@ export default function LandingPage() {
           <Link href="/" className="text-brand-600 font-bold text-xl tracking-tight">
             Opportrix
           </Link>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium text-brand-600 border-b-2 border-brand-600 pb-0.5">Features</a>
-            <a href="#how" className="text-sm text-slate-500 hover:text-slate-800 transition-colors">How it works</a>
-            <a href="#pricing" className="text-sm text-slate-500 hover:text-slate-800 transition-colors">Pricing</a>
-          </div>
           <div className="flex items-center gap-3">
             <Link href="/auth/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Sign in</Link>
             <Link href="/auth/signup" className="btn-primary text-sm">
