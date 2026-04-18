@@ -23,7 +23,7 @@ export default function MainSidebar() {
   ] : [
     { label: 'Dashboard',  href: '/dashboard',         icon: LayoutDashboard },
     { label: 'Job Board',  href: '/jobs',              icon: Briefcase },
-    { label: 'ATS Score',  href: '/dashboard/ats',     icon: BarChart2 },
+    { label: 'ATS Score',  href: '/ats',               icon: BarChart2 },
     { label: 'Messages',   href: '/chat',              icon: MessageSquare },
     { label: 'Community',  href: '/feed',              icon: TrendingUp },
   ]

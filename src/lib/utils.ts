@@ -24,8 +24,10 @@ export function platformColor(platform: string): string {
   switch (platform.toLowerCase()) {
     case 'linkedin': return 'bg-blue-600 text-white'
     case 'twitter':  return 'bg-black text-white'
-    case 'reddit':   return 'bg-orange-500 text-white'
-    default:         return 'bg-gray-200 text-gray-800'
+    case 'reddit':   return 'bg-black text-white'
+    case 'remoteok': return 'bg-rose-500 text-white'
+    case 'remotive': return 'bg-teal-600 text-white'
+    default:         return 'bg-slate-200 text-slate-800'
   }
 }
 

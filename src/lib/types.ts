@@ -8,6 +8,10 @@ export interface UserProfile {
   bio?: string
   skills: string[]
   portfolioLinks: string[]
+  portfolioUrl?: string
+  githubUrl?: string
+  linkedinUrl?: string
+  resumeUrl?: string
   atsScore: number
   credibilityScore: number
   availability: boolean
@@ -18,7 +22,8 @@ export interface UserProfile {
 
 export interface AggregatedPost {
   id: string
-  platform: 'linkedin' | 'twitter' | 'reddit'
+  platform: 'linkedin' | 'twitter' | 'reddit' | 'remoteok' | 'remotive'
+  tab: 'freelance' | 'hiring'           // which feed tab this belongs to
   postUrl: string
   title: string
   author: string
@@ -27,8 +32,6 @@ export interface AggregatedPost {
   postedAt: number
   fetchedAt?: number
   skillTags?: string[]
-  budgetMin?: number
-  budgetMax?: number
   externalId?: string
 }
 

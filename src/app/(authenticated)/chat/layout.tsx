@@ -12,7 +12,7 @@ export default function ChatContactsLayout({ children }: { children: React.React
   const { user, profile } = useAuth()
   const pathname = usePathname()
   
-  const [contacts, setContacts] = useState<any[]>([])
+  const [contacts, setContacts] = useState<{chatId: string; contactId: string; contactName: string; contactRole: string; photoURL?: string; lastMessage: string; time: string}[]>([])
 
   useEffect(() => {
     async function fetchContacts() {
@@ -20,7 +20,9 @@ export default function ChatContactsLayout({ children }: { children: React.React
        // Fetch potential contacts (e.g., opposite role)
        const q = query(collection(db, 'users'), where('role', '!=', profile.role))
        const snap = await getDocs(q)
-       const others = snap.docs.map(d => ({uid: d.id, ...d.data()})).filter(u => u.uid !== user.uid)
+       const others = snap.docs
+         .map(d => ({ uid: d.id, ...(d.data() as { fullName?: string; role?: string; photoURL?: string }) }))
+         .filter(u => u.uid !== user.uid)
        
        const chatContacts = others.map(o => {
          const chatId = [user.uid, o.uid].sort().join('_')
@@ -28,10 +30,10 @@ export default function ChatContactsLayout({ children }: { children: React.React
            chatId,
            contactId: o.uid,
            contactName: o.fullName || 'User',
-           contactRole: o.role,
+           contactRole: o.role || 'unknown',
            photoURL: o.photoURL,
-           lastMessage: "Click to start chatting",
-           time: "New"
+           lastMessage: 'Click to start chatting',
+           time: 'New',
          }
        })
        setContacts(chatContacts)
