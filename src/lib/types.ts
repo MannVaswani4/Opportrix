@@ -3,6 +3,7 @@ export interface UserProfile {
   role: 'freelancer' | 'recruiter'
   fullName: string
   email: string
+  photoURL?: string
   headline?: string
   bio?: string
   skills: string[]
@@ -11,7 +12,6 @@ export interface UserProfile {
   credibilityScore: number
   availability: boolean
   hourlyRate: number
-  photoURL?: string
   commentTemplate?: string
   createdAt: number
 }
@@ -23,13 +23,13 @@ export interface AggregatedPost {
   title: string
   author: string
   authorHandle?: string
-  snippet: string
+  snippet?: string
   postedAt: number
-  fetchedAt: number
-  skillTags: string[]
+  fetchedAt?: number
+  skillTags?: string[]
   budgetMin?: number
   budgetMax?: number
-  externalId: string
+  externalId?: string
 }
 
 export interface NativePost {
@@ -87,15 +87,12 @@ export interface Review {
   createdAt: number
 }
 
+// Chat message - stored in Firebase Realtime Database
 export interface ChatMessage {
   id: string
   senderId: string
-  receiverId: string
-  content: string
-  type: 'text' | 'file'
-  fileUrl?: string
+  text: string        // field is 'text' in RTDB
   timestamp: number
-  read: boolean
 }
 
 export interface ChatMetadata {
