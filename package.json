@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-env": "node update_env.js",
+    "upload-env": "node upload_env.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
