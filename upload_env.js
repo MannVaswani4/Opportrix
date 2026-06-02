@@ -26,7 +26,7 @@ for (let line of lines) {
 
   console.log(`Setting ${key}...`);
 
-  for (const env of ['production', 'preview', 'development']) {
+  for (const env of ['production', 'development']) {
     try {
       execSync(`npx vercel env rm ${key} ${env} -y`, { stdio: 'ignore' });
     } catch (e) {
