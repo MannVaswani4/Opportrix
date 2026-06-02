@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { AggregatedPost } from '@/lib/types'
 import { platformColor, platformLabel, timeAgo, getInitials, cn } from '@/lib/utils'
 import AutoCommentModal from '@/components/AutoCommentModal'
-import { Zap, Search, X, ExternalLink, Briefcase } from 'lucide-react'
+import { Zap, Search, X, ExternalLink, Briefcase, SlidersHorizontal } from 'lucide-react'
 
 const PLATFORMS = ['linkedin', 'twitter', 'reddit'] as const
 const LIMIT = 20
@@ -47,6 +47,7 @@ export default function DashboardPage() {
   const [filterPlatforms, setFilterPlatforms] = useState<Set<string>>(new Set(['linkedin','twitter','reddit']))
   const [searchTerm, setSearchTerm]         = useState('')
   const [skillFilter, setSkillFilter]       = useState<string | null>(null)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const loaderRef = useRef<HTMLDivElement>(null)
 
   async function fetchPosts(tabVal: 'freelance'|'hiring', after?: QueryDocumentSnapshot<DocumentData>) {
@@ -123,9 +124,35 @@ export default function DashboardPage() {
 
   return (
     <>
+      {/* Mobile filters backdrop */}
+      {mobileFiltersOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-xs lg:hidden animate-fade-in" 
+          onClick={() => setMobileFiltersOpen(false)}
+        />
+      )}
+
       <div className="flex flex-1 overflow-hidden h-full">
-        {/* ── Left filter panel ─────────────────── */}
-        <aside className="w-56 shrink-0 px-5 py-6 border-r border-slate-100 hidden lg:flex flex-col gap-6 bg-white">
+        {/* ── Slide-out filter panel ─────────────────── */}
+        <aside className={cn(
+          "w-64 px-5 py-6 border-slate-100 flex flex-col gap-6 bg-white transition-transform duration-300 ease-in-out z-40",
+          "lg:w-56 lg:shrink-0 lg:border-r lg:flex lg:static lg:translate-x-0 lg:h-auto lg:shadow-none",
+          mobileFiltersOpen 
+            ? "fixed inset-y-0 right-0 translate-x-0 shadow-2xl animate-slide-in-right" 
+            : "fixed inset-y-0 right-0 translate-x-full lg:static"
+        )}>
+          {/* Close button on mobile */}
+          <div className="flex items-center justify-between lg:hidden pb-2 border-b border-slate-100">
+            <span className="text-xs font-extrabold text-slate-400 tracking-wider">FILTERS</span>
+            <button 
+              onClick={() => setMobileFiltersOpen(false)}
+              className="p-1 text-slate-400 hover:text-slate-600 rounded-lg"
+              aria-label="Close filters"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
           {/* Tabs */}
           <div>
             <p className="text-[10px] font-bold tracking-widest text-slate-400 mb-3">FEED TYPE</p>
@@ -133,7 +160,7 @@ export default function DashboardPage() {
               {(['freelance', 'hiring'] as const).map(t => (
                 <button
                   key={t}
-                  onClick={() => setTab(t)}
+                  onClick={() => { setTab(t); setMobileFiltersOpen(false); }}
                   className={cn(
                     'w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold capitalize transition-all',
                     tab === t
@@ -150,12 +177,12 @@ export default function DashboardPage() {
           {/* Your skills filter */}
           {profileSkills.length > 0 && (
             <div>
-              <p className="text-[10px] font-bold tracking-widests text-slate-400 mb-3">FILTER BY YOUR SKILLS</p>
+              <p className="text-[10px] font-bold tracking-widest text-slate-400 mb-3">FILTER BY YOUR SKILLS</p>
               <div className="flex flex-wrap gap-1.5">
                 {profileSkills.map(s => (
                   <button
                     key={s}
-                    onClick={() => setSkillFilter(skillFilter === s ? null : s)}
+                    onClick={() => { setSkillFilter(skillFilter === s ? null : s); setMobileFiltersOpen(false); }}
                     className={cn(
                       'badge text-xs transition-all font-semibold',
                       skillFilter === s
@@ -177,9 +204,9 @@ export default function DashboardPage() {
         </aside>
 
         {/* ── Main feed ──────────────────────── */}
-        <div className="flex-1 px-6 py-6 overflow-y-auto">
+        <div className="flex-1 px-4 sm:px-6 py-6 overflow-y-auto">
           {/* Title row + search */}
-          <div className="flex items-center justify-between mb-6 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
             <div>
               <h1 className="text-2xl font-bold text-slate-900">
                 {tab === 'freelance' ? 'Freelance Gigs' : 'Hiring Board'}
@@ -191,20 +218,30 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            {/* Search bar */}
-            <div className="relative w-72 shrink-0">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                className="input pl-9 bg-slate-50 text-sm w-full"
-                placeholder="Search posts, skills…"
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-              />
-              {searchTerm && (
-                <button onClick={() => setSearchTerm('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
+            {/* Search bar and mobile filters trigger */}
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-72 sm:flex-initial">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  className="input pl-9 bg-slate-50 text-sm w-full"
+                  placeholder="Search posts, skills…"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                />
+                {searchTerm && (
+                  <button onClick={() => setSearchTerm('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+              
+              <button
+                onClick={() => setMobileFiltersOpen(true)}
+                className="lg:hidden p-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 rounded-xl flex items-center justify-center shrink-0 h-[42px] w-[42px]"
+                title="Open filters"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+              </button>
             </div>
           </div>
 

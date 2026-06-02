@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { useAuth } from '@/contexts/AuthContext'
-import { Bell, Settings, LogOut, User } from 'lucide-react'
+import { Bell, Settings, LogOut, User, Menu } from 'lucide-react'
 import { getInitials } from '@/lib/utils'
 
-export default function MainHeader() {
+export default function MainHeader({ onMenuToggle }: { onMenuToggle?: () => void }) {
   const { profile, user } = useAuth()
   const router = useRouter()
   const [showDropdown, setShowDropdown] = useState(false)
@@ -18,7 +18,14 @@ export default function MainHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center px-8 h-16 shrink-0">
+    <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center px-4 md:px-8 h-16 shrink-0">
+      <button
+        onClick={onMenuToggle}
+        className="p-2 text-slate-500 hover:bg-slate-100 rounded-lg md:hidden mr-2"
+        aria-label="Toggle menu"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
       {/* Right side — no search bar (search is page-specific, lives on Dashboard) */}
       <div className="ml-auto flex items-center gap-6">
         <button className="relative text-slate-400 hover:text-slate-600 transition-colors">

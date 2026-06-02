@@ -3,11 +3,12 @@ import { useAuth } from '@/contexts/AuthContext'
 import MainSidebar from '@/components/MainSidebar'
 import MainHeader from '@/components/MainHeader'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading } = useAuth()
   const router = useRouter()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     if (!loading && !user) {
@@ -26,10 +27,10 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
-      <MainSidebar />
+    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans relative">
+      <MainSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0">
-        <MainHeader />
+        <MainHeader onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 overflow-y-auto w-full relative z-0">
           {children}
         </main>
